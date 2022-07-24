@@ -1,3 +1,5 @@
+package homeWorks;
+
 import java.util.Scanner;
 
 public class HW_2_LeapYear {
