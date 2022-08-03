@@ -34,8 +34,58 @@ public class StringExamples {
         //STRING CLASS METHODS - INDEXOF()
         String speakingText = "This is Test";
         System.out.println(speakingText.indexOf('e'));
-        //we are asking which index has veryst ë"letter in text
+        //we are asking which index has very 1st 'e'  letter in text
+        System.out.println(speakingText.indexOf("is"));
+        //If there are more than 1 symbol, we use DOUBLE quotation marks
+
+        //REPLACE ALL()
+        //Ragana
+
+        String textForTV = "This phone is complete ragana. And this case also is ragana";
+        System.out.println(textForTV);
+        System.out.println(textForTV.replace("ragana", "quene"));
+        // 1st what to remove, then what to replace with
+
+        // CHARACTER INDEX
+        System.out.println(textForTV.charAt(5));
+        // How to get a very last character
+        System.out.println(textForTV.length());
+
+        System.out.println(textForTV.charAt(5));
+        System.out.println(textForTV.substring(5,12));
+        System.out.println (textForTV.charAt (textForTV.length()-1));
+
+        //PARSING
+        // Convert String to non - primitive Data types
+        String intValue = "165";
+        String floatValue = "2.0";
+        String doubleValue = "2.4542654";
+        String boolValue  = "true";
+        String longValue = "10000000000000";
+
+        /*intValue += 4;// Just add as a symbol
+        System.out.println(intValue);*/
+
+        System.out.println(Integer.parseInt(intValue));
+        System.out.println(Integer.parseInt(intValue)+4);
+        //Add to calculation
+        System.out.println(Float.parseFloat(intValue));
+        System.out.println(Double.parseDouble (intValue));
+        System.out.println(Long.parseLong(intValue));
         
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
