@@ -1,5 +1,6 @@
 import java.sql.SQLOutput;
 import java.util.Locale;
+import java.util.Scanner;
 
 public class StringExamples {
     public static void main(String[] args) {
@@ -72,7 +73,21 @@ public class StringExamples {
         System.out.println(Float.parseFloat(intValue));
         System.out.println(Double.parseDouble (intValue));
         System.out.println(Long.parseLong(intValue));
-        
+        //Test comment
+
+        //Trim method
+        System.out.println("      This is test    ".trim());
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Please enter password (qwert*)");
+        String pswd = scanner.nextLine().trim().toLowerCase();
+
+        if (pswd.equals("qwerty")){
+            System.out.println("Password correct");
+        } else {
+            System.out.println("Incorrect password");
+        }
+
 
 
 
