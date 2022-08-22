@@ -2,6 +2,7 @@ package collections;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 
 public class SetInterfaceExample {
     public static void main(String[] args) {
@@ -68,13 +69,21 @@ public class SetInterfaceExample {
         HashSet<Integer>intersection = new HashSet<>(intSet1);
         intersection.retainAll(intSet2);
         System.out.println("Intersection: " + intersection);
+        // Find difference
+        HashSet<Integer>difference = new HashSet<>(intSet1);
+        difference.removeAll(intSet2);
+        System.out.println("difference" + difference);
 
+        //LinkedHashSet
+        LinkedHashSet <String> linkedHashSet = new LinkedHashSet<>();
+        linkedHashSet.add("Latvia");
+        linkedHashSet.add("Lithuania");
+        linkedHashSet.add("Sweden");
+        System.out.println(linkedHashSet);
 
-
-
-
-
-
+        //Remove
+        linkedHashSet.remove("Latvia");
+        System.out.println(linkedHashSet);
 
 
 
