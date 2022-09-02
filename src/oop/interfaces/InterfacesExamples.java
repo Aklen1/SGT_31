@@ -24,5 +24,7 @@ public class InterfacesExamples {
         ant.bugSound();
         ant.bugSize();
         ant.location();
+
+
     }
 }

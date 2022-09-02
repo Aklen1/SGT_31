@@ -85,6 +85,8 @@ public class SetInterfaceExample {
         linkedHashSet.remove("Latvia");
         System.out.println(linkedHashSet);
 
+        
+
 
 
 
