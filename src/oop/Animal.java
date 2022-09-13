@@ -27,6 +27,7 @@ public class Animal {
 
     }
     public void setAvgLifespan (int avgLifespan){
+
         this.avgLifespan = avgLifespan;
     }
     public void printAnimalInfo(){
