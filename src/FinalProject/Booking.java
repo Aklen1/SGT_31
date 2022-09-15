@@ -1,122 +1,109 @@
 package FinalProject;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Scanner;
 
 public class Booking {
-    static String myBooking(String userDtl) {
-        String bookingConfirmation="";
-        Scanner myObj = new Scanner(System.in);
-        System.out.println("Welcome booking management System");
-        System.out.println("Please enter your preferance");
-        System.out.println("prefered floor number :\n ");
-        int floorNo = myObj.nextInt();
-        System.out.println("prefered Room number :\n ");
-        int roomNo = myObj.nextInt();
-        myObj.nextLine();
-        System.out.println("Booking date from (dd.mm.yyyy):\n ");
-        String startDate = myObj.nextLine();
-
-        System.out.println("Booking End date (dd.mm.yyyy):\n ");
-        String endDate = myObj.nextLine();
-
-        System.out.println("Name :"+userDtl+ "\nFloor no : "+ floorNo + ", \nRoom no: " +roomNo + ", \nStarting date : "+startDate + ",\nEnding date :" +endDate);
-
-        return bookingConfirmation;
-    }
-    static void myDeskMgt(String userDtl) {
-        System.out.println("Welcome Desk management System");
-
-        Scanner myObj = new Scanner(System.in);
-
-
-        System.out.println("Please select operation:");
-        System.out.println("Enter floor or f for floor //room or r for room // desk or d for desk operations(add/delete/view):");
-
-        String menuSelect = myObj.nextLine();
-
-        if("floor".equals(menuSelect.toLowerCase()) ||"f".equals(menuSelect.toLowerCase()) ){
-            floorMgt(userDtl);
-
-        }else if("room".equals(menuSelect.toLowerCase()) || "r".equals(menuSelect.toLowerCase())){
-            roomMgt(userDtl);
-        }else if("desk".equals(menuSelect.toLowerCase()) || "d".equals(menuSelect.toLowerCase())){
-            deskMgt(userDtl);
-        }else{
-            System.out.println("Opps...!!! invalid input please choose option from book or manage option");
-        }
-    }
-    static void floorMgt(String userDtl) {
-        System.out.println("Welcome Floor management System");
-
+    static void operationMgt(String userDtl, Integer operationType) {
+        System.out.println("Welcome "+operationType+" method");
         Scanner myObj = new Scanner(System.in);
         System.out.println("Please select operation:");
-        System.out.println("Enter List or l for list //add or a for adding // delete or d for delete operation of floor:");
-        String menuSelect = myObj.nextLine();
-        if("list".equals(menuSelect.toLowerCase()) ||"l".equals(menuSelect.toLowerCase()) ){
-            System.out.println("List of Floor");
 
-        }else if("Add".equals(menuSelect.toLowerCase()) || "a".equals(menuSelect.toLowerCase())){
-            System.out.println("Add Floor");
-        }else if("delete".equals(menuSelect.toLowerCase()) || "d".equals(menuSelect.toLowerCase())){
-            System.out.println("Delete Floor");
-        }else{
-            System.out.println("Opps...!!! invalid input please choose option from book or manage option");
+        switch (operationType) {
+            case 1:
+                System.out.println("view booking!!!");
+                myConMgt("SELECT * FROM `workplaces` WHERE `occupied`='1'",1);
+                break;
+            case 2:
+                System.out.println("view Vacant desks!");
+                myConMgt("SELECT * FROM `workplaces` WHERE `occupied`='0'",1);
+                break;
+            case 3:
+                System.out.println("adding desk!");
+
+                myConMgt("INSERT INTO Workplaces  (wplaceID, floor, room, deskID, occupied, dateFrom, dateTo) VALUES ('2512', 2, 5, 12, false, '18.09.2022',  '18.09.2022');",2);
+                break;
+            case 4:
+                System.out.println("delete desk!");
+                myConMgt("DELETE from workplaces WHERE wplaceID = '2512'",3);
+                break;
+            case 5:
+                System.out.println("Exit");
+                break;
+            default:
+                System.out.println("Opps...!!! invalid input please choose option from book or manage option");
+                break;
         }
+
     }
-    static void roomMgt(String userDtl) {
-        System.out.println("Welcome Room management System");
+    static void myConMgt(String qryString , int operation) {
+        System.out.println("qry:" + qryString);
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
 
-        Scanner myObj = new Scanner(System.in);
-        System.out.println("Please select operation:");
-        System.out.println("Enter List or l for list //add or a for adding // delete or d for delete operation of Room:");
-        String menuSelect = myObj.nextLine();
-        if("list".equals(menuSelect.toLowerCase()) ||"l".equals(menuSelect.toLowerCase()) ){
-            System.out.println("List of Room");
 
-        }else if("Add".equals(menuSelect.toLowerCase()) || "a".equals(menuSelect.toLowerCase())){
-            System.out.println("Add Room");
-        }else if("delete".equals(menuSelect.toLowerCase()) || "d".equals(menuSelect.toLowerCase())){
-            System.out.println("Delete Room");
-        }else{
-            System.out.println("Opps...!!! invalid input please try again later!");
-        }
+            Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/java31_group1","root","Corolla1");
+            //here sonoo is the database name, root is the username and root is the password
+            Statement stmt=con.createStatement();
+
+            if(operation==1){
+                System.out.println("view booking!!!");
+                ResultSet rs=stmt.executeQuery(qryString);
+                while(rs.next())
+                    System.out.println(rs.getString(1)+"   "+rs.getInt(2)+"  "+rs.getInt(3)+"  "+rs.getInt(4)+"  "+rs.getString(5)+"  "+rs.getString(6)+"  "+rs.getString(7));
+
+            }else{
+
+                stmt.executeUpdate(qryString);
+
+            }
+
+
+            con.close();
+
+        }catch(Exception e){ System.out.println(e);}
+
+
+
     }
-
-    static void deskMgt(String userDtl) {
-        System.out.println("Welcome Desk management System");
-
-        Scanner myObj = new Scanner(System.in);
-        System.out.println("Please select operation:");
-        System.out.println("Enter List or l for list //add or a for adding // delete or d for delete operation of Desk:");
-        String menuSelect = myObj.nextLine();
-        if("list".equals(menuSelect.toLowerCase()) ||"l".equals(menuSelect.toLowerCase()) ){
-            System.out.println("List of Desk");
-
-        }else if("Add".equals(menuSelect.toLowerCase()) || "a".equals(menuSelect.toLowerCase())){
-            System.out.println("Add Desk");
-        }else if("delete".equals(menuSelect.toLowerCase()) || "d".equals(menuSelect.toLowerCase())){
-            System.out.println("Delete Desk");
-        }else{
-            System.out.println("Opps...!!! invalid input please try again later!");
-        }
-    }
-
     public static void main(String[] args) {
 
         System.out.println("Welcome to the Desk Reservation Application!\n------------------------------------------------------------");
         System.out.println("Would you like to book a desk or manage desk? :\n ");
-        System.out.println("*select option book or manage or exit : (book/b or manage/m or Exit)");
-        Scanner myObj = new Scanner(System.in);
-        String menuSelect = myObj.nextLine();
-        System.out.println("Please enter user's full name : ");
-        String userDtl = myObj.nextLine();
-        if("book".equals(menuSelect.toLowerCase()) ||"b".equals(menuSelect.toLowerCase()) ){
+        System.out.println("*select option book or manage or exit : (view booking  or view vacant desks or add desk or delete desk or Exit)");
+        System.out.println("Enter 1 for view booking! \nEnter 2 for view Vacant desks! \nEnter 3 for adding desk! \nEnter 4 for delete desk! \nEnter 5 for exit!\n\nPlease enter your option:");
 
-            myBooking(userDtl.toLowerCase());
-        }else if("manage".equals(menuSelect.toLowerCase()) || "m".equals(menuSelect.toLowerCase())){
-            myDeskMgt(userDtl.toLowerCase());
-        }else{
-            System.out.println("Opps...!!! invalid input please choose option from book or manage option");
+        Scanner myObj = new Scanner(System.in);
+        int oprSelect = myObj.nextInt();
+        String userDtl = "N001";
+        System.out.println("UserID is : "+userDtl);
+
+        switch (oprSelect) {
+            case 1:
+                System.out.println("view booking!");
+                operationMgt(userDtl,oprSelect);
+                break;
+            case 2:
+                System.out.println("view Vacant desks!");
+                operationMgt(userDtl,oprSelect);
+                break;
+            case 3:
+                System.out.println("adding desk!");
+                operationMgt(userDtl,oprSelect);
+                break;
+            case 4:
+                System.out.println("delete desk!");
+                operationMgt(userDtl,oprSelect);
+                break;
+            case 5:
+                System.out.println("Exit");
+                break;
+            default:
+                System.out.println("Opps...!!! invalid input please choose option from book or manage option");
+                break;
         }
 
         System.out.println("\n\n\nThank you for useing our system...!!!" );
