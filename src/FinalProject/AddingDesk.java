@@ -1,7 +1,6 @@
-/*
 package FinalProject;
 
-public class addingDesk {
+public class AddingDesk {
     private String wplaceID;
     private int floor;
     private int room;
@@ -21,19 +20,19 @@ public class addingDesk {
 
     public void setDeskID(int deskID) {
         this.deskID = deskID;
-        public String getWplaceID() {
-            return wplaceID;
-        }
-        public int getFloor () {
-            return floor;
-        }
-        public int getRoom () {
-            return room;
-        }
-        public int getDeskID () {
-            return deskID;
-        }
+    }
 
+    public String getWplaceID() {
+        return wplaceID;
     }
+    public int getFloor () {
+        return floor;
     }
-*/
+    public int getRoom () {
+        return room;
+    }
+    public int getDeskID () {
+        return deskID;
+    }
+
+}
