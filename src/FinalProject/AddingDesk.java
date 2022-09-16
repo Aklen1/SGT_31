@@ -1,5 +1,4 @@
 package FinalProject;
-
 public class AddingDesk {
     private String wplaceID;
     private int floor;

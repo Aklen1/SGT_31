@@ -1,6 +1,7 @@
 package FinalProject;
 
 public class BookingDesk {
+
     private String wplaceID;
     private String occupied;
     private String dateFrom;
@@ -40,5 +41,3 @@ public class BookingDesk {
     }
 
 }
-
-
