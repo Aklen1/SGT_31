@@ -7,7 +7,7 @@ import java.sql.Statement;
 import java.util.Scanner;
 
 public class DeskManagement {
-    static void operationMgt(String userDtl, Integer operationType) {
+    static void operationMgt(Integer operationType) {
 
         Scanner scanner  = new Scanner(System.in);
         switch (operationType) {
@@ -54,9 +54,25 @@ public class DeskManagement {
 
             if(operation==1){
                 ResultSet rs=stmt.executeQuery(qryString);
-                while(rs.next())
-                    System.out.println(rs.getString(1)+"  "+rs.getString(2)+"  "+rs.getInt(3)+"  "+rs.getInt(4)+"  "+rs.getInt(5)+"  "+rs.getString(6)+"  "+rs.getString(7)+"  "+rs.getString(8));
 
+                //prints the list objects in tabular format
+                System.out.println("---------------------------------------------------------------------------------------------");
+                System.out.printf("%5s %5s %5s %5s %5s %5s %5s %5s", "WorkplaceID", "User ID", "Floor", "Room", "Desk", "Occupied","DateFrom","DateTo");
+                System.out.println();
+                System.out.println("---------------------------------------------------------------------------------------------");
+//iterates over the list
+                while(rs.next()) {
+                    System.out.format("%7s %10s %5s %5s %5s %5s %8s %8s",rs.getString(1) , rs.getString(2) , rs.getInt(3) ,rs.getInt(4) , rs.getInt(5) ,rs.getString(6) ,rs.getString(7), rs.getString(8));
+
+                    System.out.println();
+                }
+                System.out.println("----------------------------------------------------------------------------------------------");
+
+
+           // while(rs.next()) {
+
+             //       System.out.println(rs.getString(1) + "  " + rs.getString(2) + "  " + rs.getInt(3) + "  " + rs.getInt(4) + "  " + rs.getInt(5) + "  " + rs.getString(6) + "  " + rs.getString(7) + "  " + rs.getString(8));
+               // }
             }else{
 
                 stmt.executeUpdate(qryString);
@@ -74,24 +90,23 @@ public class DeskManagement {
 
         Scanner scanner = new Scanner(System.in);
         int oprSelect = scanner.nextInt();
-        String userDtl = "N001";
 
         switch (oprSelect) {
             case 1:
                 System.out.println("View booking!");
-                operationMgt(userDtl,oprSelect);
+                operationMgt(oprSelect);
                 break;
             case 2:
                 System.out.println("View Vacant desks!");
-                operationMgt(userDtl,oprSelect);
+                operationMgt(oprSelect);
                 break;
             case 3:
                 System.out.println("Adding desk!!");
-                operationMgt(userDtl,oprSelect);
+                operationMgt(oprSelect);
                 break;
             case 4:
                 System.out.println("Delete desk!");
-                operationMgt(userDtl,oprSelect);
+                operationMgt(oprSelect);
                 break;
             case 5:
                 System.out.println("Exit");

@@ -1,16 +1,12 @@
 package FinalProject;
 
-import FinalProject.BookingDesk;
-import FinalProject.DBConnection;
-import FinalProject.UserRegistration;
-
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Main {
-    //variable for checking current user
     static public int currentUserId = 0;
+    static public String currentUserRole;
     static char runAgain = 'y';
     static DBConnection dataBase = new DBConnection();
     static Scanner scanner = new Scanner(System.in);
@@ -24,44 +20,90 @@ public class Main {
             System.out.println("c - create an account");
             char action = scanner.nextLine().charAt(0);
 
+
             if (action == 'l') {
                 login();
             } else if (action == 'c') {
                 createUser();
             }
 
-            if (currentUserId > 0) {
-                while (runAgain == 'y') {
-                    System.out.println("What would you like to do?");
-                    System.out.println("l - list free Desks");
-                    System.out.println("b - book a Desk");
-                    System.out.println("c - cancel booking");
-                    char choice = scanner.nextLine().charAt(0);
+            if (currentUserId > 0 && currentUserRole.equals("e")) {
 
-                    if (choice == 'b') {
-                        bookDesk();
-                    }/* else if (choice == 'c') {
-                        cancelDesk();
-                    } else
-                    if (choice == 'l') {
-                        listDesk();
-                    }*/
 
-                    System.out.println("Do you want to do something more? y/n");
-                    runAgain = scanner.nextLine().charAt(0);
-                }
-            } else {
+                    //System.out.println("What would you like to do?");
+                    //System.out.println("l - list free Desks");
+                    //System.out.println("o - book a Desk");
+                    //System.out.println("b - book a Desk");
+                    //System.out.println("c - cancel booking");
+                System.out.println("VIEW VACANT desks - enter 1:  \nBook Desk - enter 2 \nCancel Desk - enter 3 \n\nPlease enter your option:");
+
+                int option;
+                Scanner console = new Scanner(System.in);
+                do
+                {
+                    System.out.println("Any other action? yes the 1/2/3 no then 0");
+                    option = console.nextInt();
+                    switch (option) {
+                        case 1:
+                            System.out.println("View Vacant desks!");
+                            DeskManagement.operationMgt(2);
+                            break;
+                        case 2:
+                            System.out.println("Book desks!");
+                            bookDesk();
+
+                           // DeskManagement.operationMgt();
+                            break;
+                        case 3:
+                            System.out.println("Cancel desk!!");
+                            deleteDesk();
+                            //DeskManagement.operationMgt(3);
+                            break;
+
+                    }
+
+                }while (option != 0);
+            } else if (currentUserId > 0 && currentUserRole.equals("m")) {
+                System.out.println("VIEW Booking - enter 1  \nCall VACANT desks List - enter 2 \nADD desk - enter 3 \nDELETE desk - enter 4 \nEXIT from program - enter 5  \n\nPlease enter your option:");
+
+                int option;
+                Scanner console = new Scanner(System.in);
+                do
+                {
+                    System.out.println("Any other action? yes the 1/2/3/4 no then 0");
+                    option = console.nextInt();
+                    switch (option) {
+                        case 1:
+                            System.out.println("View booking!");
+                            DeskManagement.operationMgt(1);
+                            break;
+                        case 2:
+                            System.out.println("View Vacant desks!");
+                            DeskManagement.operationMgt(2);
+                            break;
+                        case 3:
+                            System.out.println("Adding desk!!");
+                            DeskManagement.operationMgt(3);
+                            break;
+                        case 4:
+                            System.out.println("Delete desk!");
+                            DeskManagement.operationMgt(4);
+                            break;
+
+                    }
+
+                }while (option != 0);
+
+
+            }else if (currentUserId <0) {
                 System.out.println("Incorrect user name or password");
                 System.out.println("Try again? y/n");
-                tryAgain = scanner.nextLine().charAt(0); //FIX no input possible
+                tryAgain = scanner.nextLine().charAt(0);
             }
         }
     }
 
-
-
     public static void login() {
-        //UserRegistration currentUser = new UserRegistration();
 
         System.out.println("Enter username");
         currentUser.setUserName(scanner.nextLine());
@@ -75,8 +117,8 @@ public class Main {
             System.out.println("You have logged in successfully!");
             currentUserId = userId;
         }
+        currentUserRole = dataBase.getUserRole(currentUser.getUserName());
     }
-
     private static String getMatchedPattern(String inputMessage, String warnMessage, String pattern) {
         String inputValue;
         System.out.println(inputMessage);
@@ -94,7 +136,6 @@ public class Main {
         }
         return inputValue;
     }
-
     public static void createUser() {
         UserRegistration newUser = new UserRegistration();
 
@@ -116,34 +157,47 @@ public class Main {
         newUser.setUserRole(getMatchedPattern("What is your role: m - manager | e - employee","Please make a valid choice","[me]"));
 
         //CurrentUserID returns new userID Nr.
-        currentUserId = dataBase.createUser(newUser.getUserName(), newUser.getPassword(), newUser.getFullName(), newUser.getUserEmail(), newUser.getUserRole());
+        currentUserId = dataBase.createUserDB(newUser);
 
         if (currentUserId > 0) {
             System.out.println("You have created an account successfully!");
+
+            login();
         }
     }
-
     public static void listDesk () {
         dataBase.readListDesk();
     }
     public static void bookDesk () {
         BookingDesk newBooking = new BookingDesk();
-
-        newBooking.setWplaceID(getMatchedPattern("Please enter Workplace ID","Please check Workplace ID! It should be 6 digits","\\d{6}"));
-
-        newBooking.setOccupied("1");
+// changed 4 from 6
+        newBooking.setWplaceID(getMatchedPattern("Please enter Workplace ID","Please check Workplace ID! It should be 4 digits","\\d{4}"));
+// changed y from 1
+        newBooking.setOccupied("y");
 
         newBooking.setDateFrom(getMatchedPattern("Please enter Date From: YYYYMMDD", "Please check DateFrom! It should be in YYYYMMDD format", "\\d{8}"));
 
         newBooking.setDateTo(getMatchedPattern("Please enter Date To: YYYYMMDD", "Please check DateTo! It should be in YYYYMMDD format","\\d{8}"));
 
-        //currentUserId = dataBase.createUser(newBooking.getUserID());
-        newBooking.setUserID(dataBase.getUserName(currentUser.getUserID()));  //CURRENT USER TO TEST CAREFULLY!!!
+        newBooking.setUserID(dataBase.getUserID(currentUser.getUserName()));
 
         dataBase.saveBookingDesk(newBooking);
 
-        //THANK YOU MESSAGE
     }
+    public static void deleteDesk () {
+        BookingDesk delBooking = new BookingDesk();
+// changed 4 from 6
+        delBooking.setWplaceID(getMatchedPattern("Please enter Workplace ID","Please check Workplace ID! It should be 4 digits","\\d{4}"));
+// changed n from 0
+        delBooking.setOccupied("n");
 
+      // user ID must be null
+        delBooking.setDateFrom(null);
+        delBooking.setDateTo(null);
+
+        delBooking.setUserID(dataBase.getUserID(currentUser.getUserName()));  //CURRENT USER TO TEST CAREFULLY!!!
+
+        dataBase.delBookingDesk(delBooking);
+    }
 
 }

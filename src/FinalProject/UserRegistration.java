@@ -23,7 +23,7 @@ public class UserRegistration {
     public void setUserRole (String userRole) {
         this.userRole = userRole;
     }
-    public void userID (Integer userID) {
+    public void setUserID (int userID) {
         this.userID = userID;
     }
     public String getUserName() {
@@ -41,7 +41,7 @@ public class UserRegistration {
     public String getUserRole(){
         return userRole;
     }
-    public Integer getUserID() {
+    public int getUserID() {
         return userID;
     }
 
